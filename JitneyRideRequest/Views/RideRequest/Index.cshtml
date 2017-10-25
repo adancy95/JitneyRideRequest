@@ -1,0 +1,55 @@
+﻿<div class="row">
+
+    <div class="col-sm-8">
+        <div id="map">
+            <h1> Google Map</h1>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        @foreach (RideRequest ride in ViewBag.RideQueue)
+        {
+            <table class="table">
+
+
+                <tr>
+                    <td>@ride.RequestTime</td>
+                    <td> <input type="submit" value="Next" id="next" class="status" /></td>
+                </tr>
+                <tr>
+
+                    <td> @ride.RiderOrgLoc</td>
+                    <td>
+                        <form method="post" action="/RideRequest/PickedUpRider?rideID=@ride.ID">
+                            <input type="submit" value="Picked Up" id="pickedup" class="status" />
+                        </form>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>@ride.RiderDestLoc</td>
+                    <td>
+                        <form method="post" action="/RideRequest/DroppedOff?rideID=@ride.ID">
+                            <input type="submit" value="Dropped Off" id="droppedoff" class="status" />
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td> @ride.SeatNeeded</td>
+                    <td><input type="submit" value="Dropping Off" id="droppingoff" disabeled /></td>
+                </tr>
+                <tr>
+                    <td> Rider Did not show up?</td>
+                    <td>
+                        <form method="post" action="/RideRequest/CancelRider?rideID=@ride.ID">
+                            <input type="submit" value="Cancel" id="cancel" class="status" />
+                        </form>
+
+                    </td>
+                </tr>
+            </table>
+
+        }
+    </div>
+
+</div>

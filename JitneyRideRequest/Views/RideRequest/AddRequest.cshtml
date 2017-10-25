@@ -1,0 +1,68 @@
+﻿@model colbyJitney.Models.RideRequestViewModels.AddRequestViewModel
+
+
+
+<div>
+    <form method="post" asp-controller="RideRequest" asp-action="AddRequest" class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="RiderOrgLoc" class="control-label"></label>
+            <input class="form-control" type="text" asp-for="RiderOrgLoc" id="RiderOrgLoc" />
+            <span asp-validation-for="RiderOrgLoc"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="RiderDestLoc" class="control-label"></label>
+            <input id="RiderDestLoc" class="form-control" type="text" asp-for="RiderDestLoc" />
+            <span asp-validation-for="RiderDestLoc"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SeatsNeeded"></label>
+            @for (int i = 1; i < 7; i++)
+            {
+
+                <input type="radio" value="@i" asp-for="SeatsNeeded" /> @i
+            }
+            <span asp-validation-for="SeatsNeeded"></span>
+        </div>
+
+        <input type="text" class="hiddenform" asp-for="RiderOrgLat" />
+        <input type="text" class="hiddenform" asp-for="RiderOrgLong" />
+        <input type="text" class="hiddenform" asp-for="RiderDestLat" />
+        <input type="text" class="hiddenform" asp-for="RiderDestLong" />
+
+        <div id="rideorglat"></div>
+        <div id="rideorglng"> </div>
+        <input type="submit" value="Request Ride" class="btn btn-default" />
+
+
+    </form>
+
+
+</div>
+
+<hr />
+<div id="map"> </div>
+
+<script>
+    var map;
+    var geocoder;
+
+    function initMap() {
+        // Create a map object and specify the DOM element for display.
+        var myLatLong = new google.maps.LatLng(44.5520, -69.6317)
+        var myOptions = {
+            center: myLatLong,
+            zoom: 14
+
+        }
+        map = new google.maps.Map(document.getElementById('map'), myOptions);
+
+        geocoder = new google.maps.Geocoder();
+    }
+
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4jj4tLrw74FuNlk_naIWSFFsBn8YfVPw&libraries=places&callback=initMap"
+        async defer></script>

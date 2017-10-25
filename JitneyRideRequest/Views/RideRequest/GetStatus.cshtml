@@ -1,0 +1,93 @@
+﻿@model colbyJitney.Models.RideRequestViewModels.GetStatusViewModel
+
+
+<h1>Ride Request Status</h1>
+
+
+<hr />
+
+<p> Thank you for using the Colby Jitney. Your driver has recieved your request. Please wait patiently</p>
+
+<hr />
+<br />
+
+<input type="submit" value="Edit Ride" class="btn btn-primary btn-lg btn-block" onclick="unhideEdit();" />
+<div class="hiddenform" id="EditRide">
+    <form class="form-group" method="post" action="/RideRequest/EditRequest?rideID=@ViewBag.rideID">
+        <div class="form-group">
+            <label asp-for="EditRequestViewModel.RiderOrgLoc" class="control-label"></label>
+            <input class="form-control" type="text" asp-for="EditRequestViewModel.RiderOrgLoc" />
+            <span asp-validation-for="EditRequestViewModel.RiderOrgLoc"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EditRequestViewModel.RiderDestLoc" class="control-label"></label>
+            <input id="RiderDestLoc" class="form-control" type="text" asp-for="EditRequestViewModel.RiderDestLoc" />
+            <span asp-validation-for="EditRequestViewModel.RiderDestLoc"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EditRequestViewModel.SeatsNeeded"></label>
+            @for (int i = 1; i < 7; i++)
+            {
+
+                <input type="radio" value="@i" asp-for="EditRequestViewModel.SeatsNeeded" /> @i
+            }
+            <span asp-validation-for="EditRequestViewModel.SeatsNeeded"></span>
+        </div>
+
+        <input type="submit" value="Submit Change" class="btn btn-default" />
+
+
+    </form>
+
+
+</div>
+
+<input type="submit" value="Cancel Ride" class="btn btn-warning btn-lg btn-block" onclick="unhideCancel();" />
+<div class="hiddenform" id="CancelRide">
+    <form class="form-group" method="post" action="/RideRequest/CancelRequest?rideID=@ViewBag.rideID">
+
+
+        <label asp-for="CancelRequestViewModel.CancellationReason"></label>
+        <input type="radio" asp-for="CancelRequestViewModel.CancellationReason" value="Long Wait Time" /> Long Wait Time
+        <input type="radio" asp-for="CancelRequestViewModel.CancellationReason" value="Found Another Ride" /> Found Another Ride
+        <input type="radio" asp-for="CancelRequestViewModel.CancellationReason" value="Not Ready" /> Not Ready
+        <span asp-validation-for="CancelRequestViewModel.CancellationReason"></span>
+
+
+        <input type="submit" value="Cancel Ride" class="btn btn-default" />
+
+    </form>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+    function unhideEdit() {
+        var Edit = document.getElementById('EditRide');
+
+        if (Edit.className == 'hiddenform')
+        {
+            Edit.className = 'unhiddenform';
+
+        }
+
+    }
+
+
+    function unhideCancel() {
+        var Edit = document.getElementById('CancelRide');
+
+        if (Edit.className == 'hiddenform') {
+            Edit.className = 'unhiddenform';
+
+        }
+
+    }
+
+
+
+</script>

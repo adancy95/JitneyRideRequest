@@ -33,3 +33,26 @@
         display: none;
     }
 }
+
+/* Hides content*/
+.hiddenform {
+    display: none;
+}
+
+/*Displays Content*/
+.unhiddenform {
+    display: block;
+}
+
+.status {
+    background-color: #808080;
+}
+
+    .status:active {
+        background-color: #00359F;
+    }
+
+#map {
+    height: 700px;
+    width: 100%;
+}
