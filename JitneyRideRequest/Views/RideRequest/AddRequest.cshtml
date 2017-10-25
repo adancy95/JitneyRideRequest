@@ -1,4 +1,4 @@
-﻿@model colbyJitney.Models.RideRequestViewModels.AddRequestViewModel
+﻿@model JitneyRideRequest.Models.RideRequestViewModel.AddRequestViewModel
 
 
 
@@ -25,11 +25,6 @@
             }
             <span asp-validation-for="SeatsNeeded"></span>
         </div>
-
-        <input type="text" class="hiddenform" asp-for="RiderOrgLat" />
-        <input type="text" class="hiddenform" asp-for="RiderOrgLong" />
-        <input type="text" class="hiddenform" asp-for="RiderDestLat" />
-        <input type="text" class="hiddenform" asp-for="RiderDestLong" />
 
         <div id="rideorglat"></div>
         <div id="rideorglng"> </div>
