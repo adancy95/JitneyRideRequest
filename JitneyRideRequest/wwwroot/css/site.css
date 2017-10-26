@@ -1,31 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
+﻿
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
@@ -44,15 +17,35 @@
     display: block;
 }
 
-.status {
-    background-color: #808080;
+
+
+
+@media only screen and ( max-width: 575px ){
+    #map {
+        height: 500px;
+    }
 }
 
-    .status:active {
-        background-color: #00359F;
-    }
 
-#map {
-    height: 700px;
-    width: 100%;
+@media only screen and ( min-width: 576px ) {
+    #map {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.room {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #292b2c;
+    color: white;
+}
+
+.btns {
+    background-color: #00359F;
+    color: white;
+}
+
+a{
+    color: #00359F;
 }

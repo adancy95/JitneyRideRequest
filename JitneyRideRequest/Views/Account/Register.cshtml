@@ -3,53 +3,107 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
+<style>
+    body, html {
+        background-image: url(/images/fall-campus.jpg);
+        background-size: cover !important;
+        background-repeat: no-repeat;
+        height: auto;
+        background-position: center;
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div>
-                <select asp-for="Role">
-                    <option>Rider</option>
-                    <option>Driver</option>
-                </select>
 
+    .mid {
+        width: 75%;
+        margin: 15%;
+        background-color: rgba(255,255,255,0.7);
+    }
+
+    .formcolor {
+        opacity: 1;
+        padding: 5%;
+    }
+
+    button {
+        background-color: #00359f;
+        color: white;
+    }
+
+    .mid a {
+        color: #00359f;
+    }
+
+  
+
+    h4{
+        color:#00359f;
+    }
+
+</style>
+
+<div class="mid">
+    <div class="formcolor">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a  class="nav-link "  asp-controller="Account" asp-action="Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a   class="nav-link active" asp-controller="Account" asp-action="Register">Register</a>
+            </li>
+        </ul>
+
+        <br />
+        <br />
+
+        <div class="row">
+            <div class="col-md-4 align-content-center">
+                <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                    <h4>Create a new account.</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="FirstName"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <select asp-for="Role">
+                            <option>Rider</option>
+                            <option>Driver</option>
+                        </select>
+
+                    </div>
+                    <br />
+
+                    <button type="submit" class="btn  btn-group-lg">Register</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+        </div>
     </div>
 </div>
 

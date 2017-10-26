@@ -11,7 +11,9 @@
 <hr />
 <br />
 
-<input type="submit" value="Edit Ride" class="btn btn-primary btn-lg btn-block" onclick="unhideEdit();" />
+<input type="submit" value="Edit Ride" class="btn btns btn-lg btn-block" onclick="unhideEdit();" />
+
+<br />
 <div class="hiddenform" id="EditRide">
     <form class="form-group" method="post" action="/RideRequest/EditRequest?rideID=@ViewBag.rideID">
         <div class="form-group">
@@ -36,7 +38,8 @@
             <span asp-validation-for="EditRequestViewModel.SeatsNeeded"></span>
         </div>
 
-        <input type="submit" value="Submit Change" class="btn btn-default" />
+
+        <input type="submit" value="Submit Change" class="btn btns" />
 
 
     </form>
@@ -44,7 +47,8 @@
 
 </div>
 
-<input type="submit" value="Cancel Ride" class="btn btn-warning btn-lg btn-block" onclick="unhideCancel();" />
+<input type="submit" value="Cancel Ride" class="btn btn-danger btn-lg btn-block" onclick="unhideCancel();" />
+<br />
 <div class="hiddenform" id="CancelRide">
     <form class="form-group" method="post" action="/RideRequest/CancelRequest?rideID=@ViewBag.rideID">
 
@@ -56,7 +60,7 @@
         <span asp-validation-for="CancelRequestViewModel.CancellationReason"></span>
 
 
-        <input type="submit" value="Cancel Ride" class="btn btn-default" />
+        <input type="submit" value="Cancel Ride" class="btn btn-default btn-danger" />
 
     </form>
 </div>

@@ -1,7 +1,123 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+@{
+    ViewData["Title"] = "Home";
 
-<p>Use this area to provide additional information.</p>
+
+
+}
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Cabin+Sketch|Open+Sans|Oswald|Pacifico|Special+Elite" rel="stylesheet">
+</head>
+<style>
+    body, html {
+        background-image: url(/images/Homepage2.jpg);
+        background-size: cover !important;
+        background-repeat: no-repeat;
+        height:auto;
+        background-position: center;
+    }
+
+   
+
+  
+    h1 {
+        color: #00359f;
+        font-family: 'Cabin Sketch', cursive;
+    }
+
+    .subtext {
+        color: #00359F;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    p {
+        font-family: 'Oswald', sans-serif;
+        word-break: break-all;
+    }
+
+  #cards{
+      width:80%;
+      margin: 10%;
+      height: 50%;
+      opacity: 0.7;
+      
+      
+  } 
+
+
+    
+ </style >
+
+<div id="cards"class="card-deck" >
+    <div class="card">
+        <img class="card-img-top" src="~/images/jitney.jpg" alt="Card image cap">
+        <div class="card-block">
+            <h1 class="card-title">Jitney Serivce</h1>
+            <p class="card-text"><small class="text-muted">What Is The Jitney?</small></p>
+            <p class="card-text">The Colby Jitney is a free shuttle service available to students.
+            It takes students from Colby to Waterville locations on a first-come,
+            first serve basis. The Jitney service employs student drivers and a
+            student program supervisor. During operating hours it can be found
+            outside the Pugh Center waiting to pick up students if not out in
+            town picking up and dropping off at countless places. The Jitney
+            drivers, student supervisors, and Security Department all work together
+            to provide a quality customer experience to the Colby Community. Call
+            the Security Office to see if it is running at 207-859-5530.</p>
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <h1 class="card-title">Cost Of A Ride</h1>
+            <p class="card-text"><small class="text-muted">Zero Dollars and Zero Cents</small></p>
+            <p class="card-text">The Colby Jitney is a free shuttle service available to students.</p>
+            <hr />
+
+            <h1 class="card-title">Features</h1>
+            <p class="card-text"><small class="text-muted">Request A Ride, Check Status, And More</small></p>
+            <p class="card-text">Request A Ride, Real Time Tracking of the Jitney, estimated Pickup Time, Data Analytics, and SMS Notifications</p>
+
+      <hr />
+            <h1 class="card-title">Schedule</h1>
+            <p class="card-text"><small class="text-muted">Find Out When The Jitney Is Running</small></p>
+            <p class="card-text"> 
+            <table class="table table-responsive">
+    <tr>
+        <td> Monday </td>
+        <td> 2:00 p.m. to Midnight</td>
+    </tr>
+    <tr>
+        <td> Tuesday </td>
+        <td> 2:00 p.m. to Midnight</td>
+    </tr>
+    <tr>
+        <td> Wednesday </td>
+        <td> 2:00 p.m. to Midnight</td>
+    </tr>
+    <tr>
+        <td> Thursday </td>
+        <td> 2:00 p.m. to 2:00 a.m.</td>
+    </tr>
+    <tr>
+        <td> Friday </td>
+        <td> 2:00 p.m. to 2:00 a.m.</td>
+    </tr>
+    <tr>
+        <td> Saturday </td>
+        <td> 2:00 p.m. to 2:00 a.m.</td>
+    </tr>
+    <tr>
+        <td> Sunday </td>
+        <td> 2:00 p.m. to Midnight</td>
+    </tr>
+
+</table></p>
+          
+        </div>
+    </div>
+</div>
+
+
+
