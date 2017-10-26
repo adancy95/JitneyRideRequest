@@ -139,7 +139,11 @@ namespace JitneyRideRequest.Controllers
                     RequestTime = DateTime.Now.ToString("h:mm:ss tt"),
                     Date = DateTime.Today,
                     UserAccountID = currentUser.Id,
-                    ActiveRequest = true
+                    ActiveRequest = true,
+                    RiderOrgLat = addRequestViewModel.RiderOrgLat,
+                    RiderOrgLong = addRequestViewModel.RiderOrgLong,
+                    RiderDestLat = addRequestViewModel.RiderDestLat,
+                    RiderDestLong = addRequestViewModel.RiderDestLong
 
 
 
@@ -219,16 +223,22 @@ namespace JitneyRideRequest.Controllers
 
                 //Change the origin
                 currentRide.RiderOrgLoc = getStatusViewModel.EditRequestViewModel.RiderOrgLoc;
+                currentRide.RiderOrgLat = getStatusViewModel.EditRequestViewModel.RiderOrgLat;
+                currentRide.RiderOrgLat = getStatusViewModel.EditRequestViewModel.RiderOrgLong;
 
                 //change the destination
                 currentRide.RiderDestLoc = getStatusViewModel.EditRequestViewModel.RiderDestLoc;
+                currentRide.RiderOrgLat = getStatusViewModel.EditRequestViewModel.RiderDestLat;
+                currentRide.RiderOrgLat = getStatusViewModel.EditRequestViewModel.RiderDestLong;
 
                 //change the number of seats
                 currentRide.SeatNeeded = getStatusViewModel.EditRequestViewModel.SeatsNeeded;
 
-                //context.RideRequests.Update(currentRide);
+                
                 //save the changes made to the ride request
                 context.SaveChanges();
+
+
 
                 // TODO: populate the fields with the information in the database
                 // TODO : Add the number of people waiting for a ride in the status

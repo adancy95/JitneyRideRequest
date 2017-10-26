@@ -17,10 +17,18 @@
     display: block;
 }
 
+.nav.navbar-nav.navbar-right a,
+.nav.navbar-nav.navbar-right a:hover,
+.nav.navbar-nav.navbar-right a:active{
+    color: white !important;
+    text-decoration: none;
+    margin-left: 15px;
+   
 
 
+}
 
-@media only screen and ( max-width: 575px ){
+@media only screen and ( max-width: 575px ) {
     #map {
         height: 500px;
     }
@@ -33,6 +41,8 @@
         width: 100%;
     }
 }
+
+
 
 .room {
     margin: 0 !important;

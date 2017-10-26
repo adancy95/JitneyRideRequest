@@ -1,12 +1,19 @@
-﻿@model JitneyRideRequest.Models.RideRequestViewModel.GetStatusViewModel
+﻿
 
+@model JitneyRideRequest.Models.RideRequestViewModel.GetStatusViewModel
+
+    <style>
+        #map{
+            height: 500px;
+        }
+    </style>
 
 <h1>Ride Request Status</h1>
 
 
 <hr />
 
-<p> Thank you for using the Colby Jitney. Your driver has recieved your request. Please wait patiently</p>
+<p> Thank you for using the Colby Jitney. Your driver has received your request. Please wait patiently.</p>
 
 <hr />
 <br />
@@ -18,7 +25,7 @@
     <form class="form-group" method="post" action="/RideRequest/EditRequest?rideID=@ViewBag.rideID">
         <div class="form-group">
             <label asp-for="EditRequestViewModel.RiderOrgLoc" class="control-label"></label>
-            <input class="form-control" type="text" asp-for="EditRequestViewModel.RiderOrgLoc" />
+            <input class="form-control" type="text" asp-for="EditRequestViewModel.RiderOrgLoc" id="RiderOrgLoc" />
             <span asp-validation-for="EditRequestViewModel.RiderOrgLoc"></span>
         </div>
 
@@ -38,14 +45,27 @@
             <span asp-validation-for="EditRequestViewModel.SeatsNeeded"></span>
         </div>
 
+        <div> <input type="hidden" id="rideorglat" value="" asp-for="EditRequestViewModel.RiderOrgLat" /></div>
+        <div> <input type="hidden" id="rideorglng" value="" asp-for="EditRequestViewModel.RiderOrgLong" /></div>
+
+        <div><input type="hidden" id="ridedestlat" value="" asp-for="EditRequestViewModel.RiderDestLat" /></div>
+        <div><input type="hidden" id="ridedestlng" value="" asp-for="EditRequestViewModel.RiderDestLong" /> </div>
+
+
 
         <input type="submit" value="Submit Change" class="btn btns" />
 
 
     </form>
 
+    <br />
+
+    <div id="map"></div>
+
 
 </div>
+<br />
+
 
 <input type="submit" value="Cancel Ride" class="btn btn-danger btn-lg btn-block" onclick="unhideCancel();" />
 <br />
@@ -78,8 +98,11 @@
             Edit.className = 'unhiddenform';
 
         }
+        google.maps.event.trigger(map, 'resize');
 
     }
+
+   
 
 
     function unhideCancel() {
@@ -92,6 +115,157 @@
 
     }
 
+    function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 44.5520, lng: -69.6317 },
+            zoom: 17,
+            mapTypeId: 'roadmap'
+        });
 
+       
+
+        
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('RiderOrgLoc');
+        var searchBox = new google.maps.places.SearchBox(input);
+
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function () {
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                document.getElementById('rideorglat').value = place.geometry.location.lat();
+                document.getElementById('rideorglng').value = place.geometry.location.lng();
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
+        });
+
+        // Create the search box and link it to the UI element.
+        var input2 = document.getElementById('RiderDestLoc');
+        var searchBox2 = new google.maps.places.SearchBox(input2);
+
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox2.setBounds(map.getBounds());
+        });
+
+        var markers2 = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox2.addListener('places_changed', function () {
+            var places2 = searchBox2.getPlaces();
+
+            if (places2.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers2.forEach(function (marker) {
+                marker2.setMap(null);
+            });
+            markers2 = [];
+
+            // For each place, get the icon, name and location.
+            var bounds2 = new google.maps.LatLngBounds();
+            places2.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon2 = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers2.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon2,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                document.getElementById('ridedestlat').value = place.geometry.location.lat();
+                document.getElementById('ridedestlng').value = place.geometry.location.lng();
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds2.union(place.geometry.viewport);
+                } else {
+                    bounds2.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds2);
+        });
+
+        function unhideMap() {
+            var Edit = document.getElementById('map');
+
+            if (Edit.className == 'hiddenform') {
+                Edit.className = 'unhiddenform';
+
+            }
+
+        }
+       
+    }
+
+    
 
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9GgvxCjTBIL1gwHRqTVldYghnlL1tdGA&libraries=places&callback=initAutocomplete"
+        async defer></script>
+

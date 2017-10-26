@@ -1,104 +1,17 @@
 ﻿@model JitneyRideRequest.Models.RideRequestViewModel.AddRequestViewModel
 
     <style>
-        #map {
-            height: 900px;
-            padding: 0 !important;
-            margin:  0 !important;
+        #map{
+            height: 700px;
         }
+     
         /* Optional: Makes the sample page fill the window. */
         html, body {
             height: 100%;
-            margin: 0;
+            margin: 0 !;
             padding: 0;
         }
 
-        #description {
-            font-family: Roboto;
-            font-size: 15px;
-            font-weight: 300;
-        }
-
-        #infowindow-content .title {
-            font-weight: bold;
-        }
-
-        #infowindow-content {
-            display: none;
-        }
-
-        #map #infowindow-content {
-            display: inline;
-        }
-
-        .pac-card {
-            margin: 10px 10px 0 0;
-            border-radius: 2px 0 0 2px;
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            outline: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            background-color: #fff;
-            font-family: Roboto;
-        }
-
-        #pac-container {
-            padding-bottom: 12px;
-            margin-right: 12px;
-        }
-
-        .pac-controls {
-            display: inline-block;
-            padding: 5px 11px;
-        }
-
-            .pac-controls label {
-                font-family: Roboto;
-                font-size: 13px;
-                font-weight: 300;
-            }
-
-        #pac-input {
-            background-color: #fff;
-            font-family: Roboto;
-            font-size: 15px;
-            font-weight: 300;
-            margin-left: 12px;
-            padding: 0 11px 0 13px;
-            text-overflow: ellipsis;
-            width: 400px;
-        }
-
-            #pac-input:focus {
-                border-color: #4d90fe;
-            }
-
-        #pac-input2 {
-            background-color: #fff;
-            font-family: Roboto;
-            font-size: 15px;
-            font-weight: 300;
-            margin-left: 12px;
-            padding: 0 11px 0 13px;
-            text-overflow: ellipsis;
-            width: 400px;
-        }
-
-            #pac-input2:focus {
-                border-color: #4d90fe;
-            }
-
-        #title {
-            color: #fff;
-            background-color: #4d90fe;
-            font-size: 25px;
-            font-weight: 500;
-            padding: 6px 12px;
-        }
-
-        #target {
-            width: 345px;
-        }
 
         .request {
             margin: 0 !important;
@@ -126,13 +39,13 @@
         <form method="post" asp-controller="RideRequest" asp-action="AddRequest" class="form-horizontal formsize">
             <div class="form-group">
                 <label asp-for="RiderOrgLoc" class="control-label"></label>
-                <input class="form-control" type="text" asp-for="RiderOrgLoc" id="RiderOrgLoc" />
+                <input class="form-control" type="text" asp-for="RiderOrgLoc" id="RiderOrgLoc"  />
                 <span asp-validation-for="RiderOrgLoc"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="RiderDestLoc" class="control-label"></label>
-                <input id="RiderDestLoc" class="form-control" type="text" asp-for="RiderDestLoc" />
+                <input id="RiderDestLoc" class="form-control" type="text" asp-for="RiderDestLoc"  />
                 <span asp-validation-for="RiderDestLoc"></span>
             </div>
 
@@ -146,8 +59,13 @@
                 <span asp-validation-for="SeatsNeeded"></span>
             </div>
 
-            <div id="rideorglat"></div>
-            <div id="rideorglng"> </div>
+            <div> <input type="hidden" id="rideorglat" value="" asp-for="RiderOrgLat" /></div>
+            <div> <input type="hidden" id="rideorglng" value=""  asp-for="RiderOrgLong"/></div>
+
+            <div><input type="hidden" id="ridedestlat" value="" asp-for="RiderDestLat" /></div>
+            <div><input type="hidden" id="ridedestlng" value="" asp-for="RiderDestLong" /> </div>
+
+           
             <input type="submit" value="Request Ride" class="btn btn-default btns" />
 
 
@@ -158,45 +76,151 @@
 
 </div>
 
-<div class="col-12 room">
-    <div id="map">
+<div class="col-12">
+    <div id="map" >
     </div>
 </div>
 
 
-
 <script>
-      function initMap() {
-        var chicago = {lat: 41.85, lng: -87.65};
-        var indianapolis = {lat: 39.79, lng: -86.14};
-
+    
+    function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: chicago,
-          zoom: 7
+            center: { lat: 44.5520, lng: -69.6317 },
+            zoom: 17,
+            mapTypeId: 'roadmap'
         });
 
-        var directionsDisplay = new google.maps.DirectionsRenderer({
-          map: map
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('RiderOrgLoc');
+        var searchBox = new google.maps.places.SearchBox(input);
+        
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
         });
 
-        // Set destination, origin and travel mode.
-        var request = {
-          destination: indianapolis,
-          origin: chicago,
-          travelMode: 'DRIVING'
-        };
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function () {
+            var places = searchBox.getPlaces();
 
-        // Pass the directions request to the directions service.
-        var directionsService = new google.maps.DirectionsService();
-        directionsService.route(request, function(response, status) {
-          if (status == 'OK') {
-            // Display the route on the map.
-            directionsDisplay.setDirections(response);
-          }
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                document.getElementById('rideorglat').value = place.geometry.location.lat();
+                document.getElementById('rideorglng').value = place.geometry.location.lng();
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
         });
-      }
+
+        // Create the search box and link it to the UI element.
+        var input2 = document.getElementById('RiderDestLoc');
+        var searchBox2 = new google.maps.places.SearchBox(input2);
+
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox2.setBounds(map.getBounds());
+        });
+
+        var markers2 = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox2.addListener('places_changed', function () {
+            var places2 = searchBox2.getPlaces();
+
+            if (places2.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers2.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            markers2 = [];
+
+            // For each place, get the icon, name and location.
+            var bounds2 = new google.maps.LatLngBounds();
+            places2.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon2 = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon2,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                document.getElementById('ridedestlat').value = place.geometry.location.lat();
+                document.getElementById('ridedestlng').value = place.geometry.location.lng();
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds2.union(place.geometry.viewport);
+                } else {
+                    bounds2.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds2);
+        });
+    }
+
+        
+
+  
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB2JmerOze8qldZJlVzpg9huA_3Rfxb0A&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9GgvxCjTBIL1gwHRqTVldYghnlL1tdGA&libraries=places&callback=initAutocomplete"
         async defer></script>
 
