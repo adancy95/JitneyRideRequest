@@ -44,6 +44,10 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>Seats: @ride.SeatNeeded</td>
+                    <td><input type="submit" value="Dropping Off" id="droppingoff" class="btn btns" /></td>
+                </tr>
+                <tr>
                     <td>Destination: @ride.RiderDestLoc</td>
                     <td>
                         <form method="post" action="/RideRequest/DroppedOff?rideID=@ride.ID">
@@ -51,10 +55,7 @@
                         </form>
                     </td>
                 </tr>
-                <tr>
-                    <td>Seats: @ride.SeatNeeded</td>
-                    <td><input type="submit" value="Dropping Off" id="droppingoff" class="btn btns"/></td>
-                </tr>
+                
                 <tr>
                     <td> Rider Did not show up?</td>
                     <td>
