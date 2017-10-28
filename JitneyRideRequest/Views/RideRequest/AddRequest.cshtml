@@ -3,14 +3,17 @@
     <style>
         #map{
             height: 700px;
+            width: 100%;
         }
      
         /* Optional: Makes the sample page fill the window. */
         html, body {
             height: 100%;
-            margin: 0 !;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
         }
+
+        
 
 
         .request {
@@ -25,59 +28,83 @@
             margin: 1%;
         }
 
+        .fullmap{
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+
+        .removepadding {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
 
     </style>
 
 
 
-<div class="row" style="background-color: #4d90fe">
-    <div class="col-12"></div>
+<div class="row removepadding" style="background-color: #4d90fe">
+    <div class="col-12 removepadding"></div>
 </div>
 
-<div class="row">
-    <div class="col-sm-12 request">
-        <form method="post" asp-controller="RideRequest" asp-action="AddRequest" class="form-horizontal formsize">
-            <div class="form-group">
-                <label asp-for="RiderOrgLoc" class="control-label"></label>
-                <input class="form-control" type="text" asp-for="RiderOrgLoc" id="RiderOrgLoc"  />
-                <span asp-validation-for="RiderOrgLoc"></span>
-            </div>
+<div class="row ">
+    <div class="col-sm-12 removepadding " >
+        <div class="row ">
+           </div>
 
-            <div class="form-group">
-                <label asp-for="RiderDestLoc" class="control-label"></label>
-                <input id="RiderDestLoc" class="form-control" type="text" asp-for="RiderDestLoc"  />
-                <span asp-validation-for="RiderDestLoc"></span>
-            </div>
+        <div class="card ">
+            <h3 class="card-header">Request A Jitney Ride</h3>
+            <div class="card-block">
+                <form method="post" asp-controller="RideRequest" asp-action="AddRequest" class="form-horizontal formsize">
+                    <div class="form-group">
+                        <label asp-for="RiderOrgLoc" class="control-label"></label>
+                        <input class="form-control" type="text" asp-for="RiderOrgLoc" id="RiderOrgLoc" />
+                        <span asp-validation-for="RiderOrgLoc"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="SeatsNeeded" class="btn active"></label>
-                @for (int i = 1; i < 7; i++)
+                    <div class="form-group">
+                        <label asp-for="RiderDestLoc" class="control-label"></label>
+                        <input id="RiderDestLoc" class="form-control" type="text" asp-for="RiderDestLoc" />
+                        <span asp-validation-for="RiderDestLoc"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SeatsNeeded" class="btn active"></label>
+                        @for (int i = 1; i < 7; i++)
             {
 
-                    <input type="radio" value="@i" asp-for="SeatsNeeded" /> @i
-                }
-                <span asp-validation-for="SeatsNeeded"></span>
+                            <input type="radio" value="@i" asp-for="SeatsNeeded" /> @i
+                        }
+                        <span asp-validation-for="SeatsNeeded"></span>
+                    </div>
+
+                    <div> <input type="hidden" id="rideorglat" value="" asp-for="RiderOrgLat" /></div>
+                    <div> <input type="hidden" id="rideorglng" value="" asp-for="RiderOrgLong" /></div>
+
+                    <div><input type="hidden" id="ridedestlat" value="" asp-for="RiderDestLat" /></div>
+                    <div><input type="hidden" id="ridedestlng" value="" asp-for="RiderDestLong" /> </div>
+
+
+                    <input type="submit" value="Request Ride" class="btn btn-default btns" />
+
+
+                </form>
             </div>
-
-            <div> <input type="hidden" id="rideorglat" value="" asp-for="RiderOrgLat" /></div>
-            <div> <input type="hidden" id="rideorglng" value=""  asp-for="RiderOrgLong"/></div>
-
-            <div><input type="hidden" id="ridedestlat" value="" asp-for="RiderDestLat" /></div>
-            <div><input type="hidden" id="ridedestlng" value="" asp-for="RiderDestLong" /> </div>
-
            
-            <input type="submit" value="Request Ride" class="btn btn-default btns" />
 
-
-        </form>
-    </div>
+            
+            
+            </div>
+        </div>
+       
     
 
 
 </div>
 
-<div class="col-12">
-    <div id="map" >
+<div class="col-12 removepadding ">
+    <div id="map"  class="removepadding" >
     </div>
 </div>
 
@@ -224,3 +251,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9GgvxCjTBIL1gwHRqTVldYghnlL1tdGA&libraries=places&callback=initAutocomplete"
         async defer></script>
 
+<script>
+    $('.container-fluid').addClass('removepadding');
+</script>

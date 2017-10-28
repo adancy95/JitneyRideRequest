@@ -6,106 +6,140 @@
         margin: 0;
         padding: 0;
     }
- 
 
+   
+    table{
+       padding: 1%;
+    }
    
 
     .queue{
         margin: 5%;
     }
 
+    btn {
+        float: right;
+        width: 100%;
+
+    }
+
+    .removepadding{
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .btns {
+        background-color: #00359F;
+        color: white;
+        width: 100%;
+    }
+
+ 
+
 
 </style>
 
-<div class="row ">
+<div class="row  ">
 
-    <div class="col-sm-7 room">
+    <div class="col-9 room ">
         <div id="map">
         </div>
     </div>
 
-    <div class="col-sm-5 room">
+    <div class="col-3 removepadding" >
         @foreach (RideRequest ride in ViewBag.RideQueue)
         {
-            <table class="table table-sm queue  ">
+            <div class="card" style="width: 20rem;">
+               
+                <ul class="list-group list-group-flush">
+                   
+                   <li class="list-group-item"> <h3>@ride.RequestTime  <br /></h3> 
+                    <br />
+                       <form method="post" action="/RideRequest/CancelRider?rideID=@ride.ID">
+                           <input type="submit" value="Cancel" id="cancel" class=" card-link btn btn-sm btn-danger " />
+                       </form>
+                   
+                    </li>
+                         
 
-                <tr>
-                    <td>Time: @ride.RequestTime</td>
-                    <td> <input type="submit" value="Next" id="next" class="btn btns " /></td>
-                </tr>
-                <tr>
+                    <li class="list-group-item"><b>Origin:</b> @ride.RiderOrgLoc</li>
+                    <li class="list-group-item"><b>Seats: </b>  @ride.SeatNeeded</li>
+                    <li class="list-group-item"><b>Destination:</b> @ride.RiderDestLoc</li>
+                </ul>
+                <div class="card-block">
+                    <table>
+                        <tr>
+                            <td>
+                                <form method="post" action="/RideRequest/NextRider?rideID=@ride.ID">
+                                    <input type="submit" value="Next Rider" id="next" class=" card-link  btns btn btn-group-sm " />
+                                </form>
+                            </td>
+                            <td> 
+                                <form method="post" action="/RideRequest/PickedUpRider?rideID=@ride.ID">
+                                    <input type="submit" value="Picked Up" id="pickedup" class=" card-link  btns btn btn-group-sm " />
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form method="post" action="/RideRequest/DroppedOff?rideID=@ride.ID">
+                                    <input type="submit" value="Dropping Off" id="droppingoff" class="card-link btns btn btn-group-sm " />
+                                </form>
+                        
+                            </td>
+                            <td>
+                                <form method="post" action="/RideRequest/DroppedOff?rideID=@ride.ID">
+                                    <input type="submit" value="Dropped Off" id="droppedoff" class="card-link  btns btn btn-group-sm " />
+                                </form>
+                            </td>
 
-                    <td> Origin: @ride.RiderOrgLoc</td>
-                    <td>
-                        <form method="post" action="/RideRequest/PickedUpRider?rideID=@ride.ID">
-                            <input type="submit" value="Picked Up" id="pickedup" class="btn btns" />
-                        </form>
+                        </tr>
+                       
+                    </table>
+               
+                   
+                   
+                    
+                   
+                </div>
+            </div>
+            <br />
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>Seats: @ride.SeatNeeded</td>
-                    <td><input type="submit" value="Dropping Off" id="droppingoff" class="btn btns" /></td>
-                </tr>
-                <tr>
-                    <td>Destination: @ride.RiderDestLoc</td>
-                    <td>
-                        <form method="post" action="/RideRequest/DroppedOff?rideID=@ride.ID">
-                            <input type="submit" value="Dropped Off" id="droppedoff" class="btn btns" />
-                        </form>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td> Rider Did not show up?</td>
-                    <td>
-                        <form method="post" action="/RideRequest/CancelRider?rideID=@ride.ID">
-                            <input type="submit" value="Cancel" id="cancel" class="btn btn-danger" />
-                        </form>
-
-                    </td>
-                </tr>
-            </table>
 
         }
     </div>
+    </div>
 
-</div>
+  
+
 
 
 
 
     <script>
       function initMap() {
-        var chicago = {lat: 41.85, lng: -87.65};
-        var indianapolis = {lat: 39.79, lng: -86.14};
+        var waterville = {lat: 44.5520, lng: -69.6317};
+        
 
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: chicago,
-          zoom: 7
+          center: waterville,
+          zoom: 15
         });
 
-        var directionsDisplay = new google.maps.DirectionsRenderer({
-          map: map
-        });
-
-        // Set destination, origin and travel mode.
-        var request = {
-          destination: indianapolis,
-          origin: chicago,
-          travelMode: 'DRIVING'
-        };
-
-        // Pass the directions request to the directions service.
-        var directionsService = new google.maps.DirectionsService();
-        directionsService.route(request, function(response, status) {
-          if (status == 'OK') {
-            // Display the route on the map.
-            directionsDisplay.setDirections(response);
-          }
+        
+        // Create a marker and set its position.
+          
+        var marker = new google.maps.Marker({
+            map: map,
+            position: myLatLng,
+            title: 'Hello World!'
         });
       }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB2JmerOze8qldZJlVzpg9huA_3Rfxb0A&callback=initMap"
             async defer></script>
+
+<script>
+    $('.container-fluid').addClass('removepadding');
+</script>

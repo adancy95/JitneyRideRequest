@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col-sm-4 room">
+    @foreach (RideRequest ride in ViewBag.RideQueue)
+    {
+        <table class="table table-sm queue table-responsive  ">
+
+            <tr>
+                <td>Time: @ride.RequestTime</td>
+                <td> <input type="submit" value="Next" id="next" class="btn btns  " /></td>
+            </tr>
+            <tr>
+
+                <td style="word-wrap: break-word"> Origin:<br /> @ride.RiderOrgLoc</td>
+                <td>
+                    <form method="post" action="/RideRequest/PickedUpRider?rideID=@ride.ID">
+                        <input type="submit" value="Picked Up" id="pickedup" class="btn btns " />
+                    </form>
+
+                </td>
+            </tr>
+            <tr>
+                <td>Seats: @ride.SeatNeeded</td>
+                <td><input type="submit" value="Dropping Off" id="droppingoff" class="btn btns" /></td>
+            </tr>
+            <tr>
+                <td style="word-wrap: break-word">Destination:<br /> @ride.RiderDestLoc</td>
+                <td>
+                    <form method="post" action="/RideRequest/DroppedOff?rideID=@ride.ID">
+                        <input type="submit" value="Dropped Off" id="droppedoff" class="btn btns " />
+                    </form>
+                </td>
+            </tr>
+
+            <tr>
+                <td> Rider Did not show up?</td>
+                <td>
+                    <form method="post" action="/RideRequest/CancelRider?rideID=@ride.ID">
+                        <input type="submit" value="Cancel" id="cancel" class="btn btn-danger " />
+                    </form>
+
+                </td>
+            </tr>
+        </table>
+
+    }
+</div>
