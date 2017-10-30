@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using JitneyRideRequest.Models.RideRequestViewModel;
+using JitneyRideRequest.Models.RideRequestViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,7 +29,10 @@ namespace JitneyRideRequest.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            // TODO 1: Create Driver's Queue. Get's all the active ride request where activeride = true
+           
+
+
+            // Create Driver's Queue. Get's all the active ride request where activeride = true
             IList<RideRequest> RideQueue = context.RideRequests.Where(r => r.ActiveRequest == true).ToList();
 
             ViewBag.RideQueue = RideQueue;
@@ -36,10 +40,19 @@ namespace JitneyRideRequest.Controllers
             return View();
         }
 
+        
         public IActionResult NextRider()
         {
-            // TODO 2: Maps Rider to the Next Location, and change the color of the Next button
-            return RedirectToAction("Index");
+            //  Maps Rider to the Next Location, and change the color of the Next button
+
+            //get ride id
+            var id = Request.Query["rideID"];
+
+            //find current rider request
+            RideRequest currentRide = context.RideRequests.Single(r => r.ID == int.Parse(id));
+            ViewBag.CurrentRide = currentRide;
+
+            return View();
         }
 
         public IActionResult PickedUpRider()
@@ -59,10 +72,20 @@ namespace JitneyRideRequest.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult DroppingOffRider()
         {
-            // TODO 4: Maps driver to the rider's destination
-            return RedirectToAction("Index");
+            //  Maps driver to the rider's destination
+            //get ride id
+            var id = Request.Query["rideID"];
+
+            //find current rider request
+            RideRequest currentRide = context.RideRequests.Single(r => r.ID == int.Parse(id));
+
+          
+                ViewBag.currentRide = currentRide;
+                return View();
+
         }
 
         public IActionResult DroppedOff()
