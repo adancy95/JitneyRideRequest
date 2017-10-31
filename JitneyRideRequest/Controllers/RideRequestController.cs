@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using JitneyRideRequest.Models.RideRequestViewModel;
 using JitneyRideRequest.Models.RideRequestViewModels;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,20 +32,23 @@ namespace JitneyRideRequest.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-           
 
+            IndexViewModel indexViewModel = new IndexViewModel();
 
             // Create Driver's Queue. Get's all the active ride request where activeride = true
             IList<RideRequest> RideQueue = context.RideRequests.Where(r => r.ActiveRequest == true).ToList();
 
+            
+
             ViewBag.RideQueue = RideQueue;
 
-            return View();
+            return View(indexViewModel);
         }
 
-        
-        public IActionResult NextRider()
+        [HttpPost]
+        public IActionResult NextRider(IndexViewModel indexViewModel)
         {
+            
             //  Maps Rider to the Next Location, and change the color of the Next button
 
             //get ride id
@@ -50,9 +56,46 @@ namespace JitneyRideRequest.Controllers
 
             //find current rider request
             RideRequest currentRide = context.RideRequests.Single(r => r.ID == int.Parse(id));
-            ViewBag.CurrentRide = currentRide;
 
-            return View();
+            ApplicationUser currentRider = context.Users.Single(u => u.Id.Equals(currentRide.UserAccountID));
+
+
+            var accountSid = "AC3852209bfca9ed2a1b94d2f7e5b73a42";
+            var authToken = "7e19ce67d79e55ce2b2496272a1add07";
+            TwilioClient.Init(accountSid, authToken);
+
+            var to = new PhoneNumber("+1"+ currentRider.PhoneNumber);
+            var from = new PhoneNumber("+12075608847");
+
+            var message = MessageResource.Create(
+            to: to,
+            from: from,
+            body: "Your driver is on the way to get you. Thank you for riding with the Colby Jitney.");
+            ViewData["confirm"] = message.Sid;
+
+            return RedirectToAction("Index");
+
+
+
+           /* if (ModelState.IsValid)
+             {
+                 currentRide.DriverLat = indexViewModel.NextRiderViewModel.DriverLat;
+                 currentRide.DriverLat = indexViewModel.NextRiderViewModel.DriverLong;
+
+                 context.SaveChanges();
+
+                 ViewData["riderorglat"] = currentRide.RiderOrgLat;
+                 ViewData["riderorglong"] =currentRide.RiderOrgLong;
+                 ViewData["driverlat"]= indexViewModel.NextRiderViewModel.DriverLat;
+                 ViewData["driverlong"] = indexViewModel.NextRiderViewModel.DriverLong;
+
+                
+               // return Content(message.Sid);
+            }
+
+
+             return RedirectToAction("Index"); */
+
         }
 
         public IActionResult PickedUpRider()
@@ -82,9 +125,11 @@ namespace JitneyRideRequest.Controllers
             //find current rider request
             RideRequest currentRide = context.RideRequests.Single(r => r.ID == int.Parse(id));
 
-          
-                ViewBag.currentRide = currentRide;
-                return View();
+
+            ViewData["riderorglat"] = currentRide.RiderOrgLat;
+            ViewData["riderorglong"] = currentRide.RiderOrgLong;
+
+            return View();
 
         }
 
@@ -195,8 +240,13 @@ namespace JitneyRideRequest.Controllers
         {
             GetStatusViewModel getStatusViewModel = new GetStatusViewModel();
 
-
+            RideRequest currentRide = context.RideRequests.Single(r => r.ID.Equals(rideID));
             ViewBag.rideID = rideID;
+
+            ViewData["org"] = currentRide.RiderOrgLoc;
+            ViewData["dest"] = currentRide.RiderDestLoc;
+           
+
 
             return View(getStatusViewModel);
         }
@@ -240,6 +290,9 @@ namespace JitneyRideRequest.Controllers
 
             if (ModelState.IsValid)
             {
+                //Model is not valid because the add request has more requirements. I need 
+                //to update the rider's origin location and destination in the database if 
+                //the rider changes their ride
                 var id = Request.Query["rideID"];
 
                 RideRequest currentRide = context.RideRequests.Single(r => r.ID == int.Parse(id));
@@ -262,18 +315,20 @@ namespace JitneyRideRequest.Controllers
                 context.SaveChanges();
 
 
-
+                ViewData["org"] = getStatusViewModel.EditRequestViewModel.RiderDestLat;
+                ViewData["dest"] = getStatusViewModel.EditRequestViewModel.RiderDestLoc;
                 // TODO: populate the fields with the information in the database
                 // TODO : Add the number of people waiting for a ride in the status
 
+                return Redirect("/RideRequest/GetStatus?rideID=" + id);
 
-                return RedirectToAction("GetStatus", getStatusViewModel);
+                //return RedirectToAction("GetStatus?rideID="+ id, );
 
 
             }
 
 
-            return View("GetStatus", getStatusViewModel);
+            return View("AddRequest");
         }
 
     }

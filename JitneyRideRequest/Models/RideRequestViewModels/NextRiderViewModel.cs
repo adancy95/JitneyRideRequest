@@ -8,11 +8,7 @@ namespace JitneyRideRequest.Models.RideRequestViewModels
 {
     public class NextRiderViewModel
     {
-        //Rider Origin Location (latitude, longitude)
-        [Required]
-        public double RiderOrgLat { get; set; }
-        [Required]
-        public double RiderOrgLong { get; set; }
+       
 
         //Driver Location (latitude, longitude)
         [Required]

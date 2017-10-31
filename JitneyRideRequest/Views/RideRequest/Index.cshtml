@@ -41,6 +41,8 @@
 
 </style>
 
+
+
 <div class="row  ">
 
     <div class="col-9 room ">
@@ -49,17 +51,30 @@
     </div>
 
     <div class="col-3 removepadding" >
+      
         @foreach (RideRequest ride in ViewBag.RideQueue)
         {
+            <form>
+                <input type="hidden" class="lat" value="@ride.RiderOrgLat" />
+                <input type="hidden" class="lng" value="@ride.RiderOrgLong" />
+            </form>
+            
+
             <div class="card" style="width: 20rem;">
                
                 <ul class="list-group list-group-flush">
                    
                    <li class="list-group-item"> <h3>@ride.RequestTime  <br /></h3> 
                     <br />
+                    
+                    <br />
+                     
                        <form method="post" action="/RideRequest/CancelRider?rideID=@ride.ID">
                            <input type="submit" value="Cancel" id="cancel" class=" card-link btn btn-sm btn-danger " />
                        </form>
+                    <br />
+                       <button  id="btnaddmarker"  > Add Maker</button>
+                               
                    
                     </li>
                          
@@ -73,6 +88,8 @@
                         <tr>
                             <td>
                                 <form method="post" action="/RideRequest/NextRider?rideID=@ride.ID">
+                                    <input type ="hidden" value="" asp-for="NextRiderViewModel.DriverLat" id="driverlat" />
+                                    <input type="hidden" value="" asp-for="NextRiderViewModel.DriverLong" id="driverlong" />
                                     <input type="submit" value="Next Rider" id="next" class=" card-link  btns btn btn-group-sm " />
                                 </form>
                             </td>
@@ -130,15 +147,65 @@
           zoom: 15
           });
 
+        infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+
+                document.getElementById('driverlat').value = pos.lat;
+                document.getElementById('driverlong').value = pos.lng;
+
+
+               // infoWindow.setPosition(pos);
+               // infoWindow.setContent('Location found.');
+               // infoWindow.open(map);
+                //map.setCenter(pos);
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            //infoWindow.open(map);
+        }
 
         // Create a marker and set its position.
-          
-        var marker = new google.maps.Marker({
-            map: map,
-            position: myLatLng,
-            title: 'Hello World!'
-        });
-      }
+
+        var latlng = new google.maps.LatLng(parseFloat(getElementById('lat')), parseFloat(getElementById('long')));
+
+        function addmarker(latilongi) {
+            var marker = new google.maps.Marker({
+                position: latilongi,
+                title: 'new marker',
+                draggable: true,
+                map: map
+            });
+            map.setCenter(marker.getPosition())
+        }
+
+        $('#btnaddmarker').on('click', function () {
+            addmarker(latlng)
+        })
+       
+
+       
+        
+       
+      
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB2JmerOze8qldZJlVzpg9huA_3Rfxb0A&callback=initMap"

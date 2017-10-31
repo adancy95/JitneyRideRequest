@@ -12,7 +12,7 @@
 </head>
 <style>
     body, html {
-        background-image: url(/images/photo-1472737978137-38f9ad09dfa7.jpg);
+       
         background-size: cover !important;
         background-repeat: no-repeat;
         height: auto;
@@ -23,7 +23,7 @@
 
   
     h1 {
-        color: black;
+        color: #00359F;
         
     }
 
@@ -32,10 +32,7 @@
         font-family: 'Open Sans', sans-serif;
     }
 
-    p {
-        font-family: 'Oswald', sans-serif;
-        word-break: break-all;
-    }
+  
 
   #cards{
       width:80%;
@@ -46,19 +43,23 @@
       
   } 
 
+  button{
+      background-color: #00359F;
+      color: white;
+  }
+
 
 
 
     
  </style >
 
-<div id="cards"class="card-deck" >
-    <div class="card">
-        <img class="card-img-top" src="~/images/jitney.jpg" alt="Card image cap">
-        <div class="card-block">
-            <h1 class="card-title">Jitney Serivce</h1>
-            <p class="card-text"><small class="text-muted ">What Is The Jitney?</small></p>
-            <p class="card-text">The Colby Jitney is a free shuttle service available to students.
+<div class="jumbotron" style="margin-top: 2%;">
+    <h1 class="display-3">The Colby Jitney Service
+    </h1>
+    <p class="lead">What Is The Jitney?</p>
+    <hr class="my-4">
+    <p>The Colby Jitney is a free shuttle service available to students.
             It takes students from Colby to Waterville locations on a first-come,
             first serve basis. The Jitney service employs student drivers and a
             student program supervisor. During operating hours it can be found
@@ -67,59 +68,75 @@
             drivers, student supervisors, and Security Department all work together
             to provide a quality customer experience to the Colby Community. Call
             the Security Office to see if it is running at 207-859-5530.</p>
+    <p class="lead">
+        <button class="btn  btn-lg"> Request A Ride </button>
+    </p>
+</div>
 
+<div class="card-deck" style="margin-bottom:2%;">
+    <div class="card">
+      
+        <div class="card-block">
+            <h1 class="card-title">Cost Of A Ride</h1>
+            <hr />
+            <p class="card-text"><small class="text-muted">Zero Dollars and Zero Cents</small></p>
+            <p class="card-text">The Colby Jitney is a free shuttle service available to students.</p>
         </div>
     </div>
     <div class="card">
+      
         <div class="card-block">
-            <h1 class="card-title">Cost Of A Ride</h1>
-            <p class="card-text"><small class="text-muted">Zero Dollars and Zero Cents</small></p>
-            <p class="card-text">The Colby Jitney is a free shuttle service available to students.</p>
-            <hr />
-
             <h1 class="card-title">Features</h1>
+            <hr />
             <p class="card-text"><small class="text-muted">Request A Ride, Check Status, And More</small></p>
-            <p class="card-text">Request A Ride, Real Time Tracking of the Jitney, estimated Pickup Time, Data Analytics, and SMS Notifications</p>
+            <p class="card-text">Request A Ride, SMS Notifications, Cancel A Ride, Edit A Ride, and View Ride Requests</p>
+            
+        </div>
+    </div>
+         <div class="card">
+            
+             <div class="card-block">
+                    <h1 class="card-title">Schedule</h1>
+                 <hr />
+                    <p class="card-text"><small class="text-muted">Find Out When The Jitney Is Running</small></p>
+                    <p class="card-text">
+                        <table class="table table-responsive">
+                            <tr>
+                                <td> Monday </td>
+                                <td> 2:00 p.m. to Midnight</td>
+                            </tr>
+                            <tr>
+                                <td> Tuesday </td>
+                                <td> 2:00 p.m. to Midnight</td>
+                            </tr>
+                            <tr>
+                                <td> Wednesday </td>
+                                <td> 2:00 p.m. to Midnight</td>
+                            </tr>
+                            <tr>
+                                <td> Thursday </td>
+                                <td> 2:00 p.m. to 2:00 a.m.</td>
+                            </tr>
+                            <tr>
+                                <td> Friday </td>
+                                <td> 2:00 p.m. to 2:00 a.m.</td>
+                            </tr>
+                            <tr>
+                                <td> Saturday </td>
+                                <td> 2:00 p.m. to 2:00 a.m.</td>
+                            </tr>
+                            <tr>
+                                <td> Sunday </td>
+                                <td> 2:00 p.m. to Midnight</td>
+                            </tr>
 
-      <hr />
-            <h1 class="card-title">Schedule</h1>
-            <p class="card-text"><small class="text-muted">Find Out When The Jitney Is Running</small></p>
-            <p class="card-text"> 
-            <table class="table table-responsive">
-    <tr>
-        <td> Monday </td>
-        <td> 2:00 p.m. to Midnight</td>
-    </tr>
-    <tr>
-        <td> Tuesday </td>
-        <td> 2:00 p.m. to Midnight</td>
-    </tr>
-    <tr>
-        <td> Wednesday </td>
-        <td> 2:00 p.m. to Midnight</td>
-    </tr>
-    <tr>
-        <td> Thursday </td>
-        <td> 2:00 p.m. to 2:00 a.m.</td>
-    </tr>
-    <tr>
-        <td> Friday </td>
-        <td> 2:00 p.m. to 2:00 a.m.</td>
-    </tr>
-    <tr>
-        <td> Saturday </td>
-        <td> 2:00 p.m. to 2:00 a.m.</td>
-    </tr>
-    <tr>
-        <td> Sunday </td>
-        <td> 2:00 p.m. to Midnight</td>
-    </tr>
+                        </table>
+                    </p>
 
-</table></p>
+                </div>
           
         </div>
     </div>
-</div>
 
 
 

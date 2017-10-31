@@ -8,62 +8,31 @@
 </style>
 <h1> Next Rider Map</h1>
 <button asp-controller="RideRequest" asp-action="Index"> Arrived </button>
-<input type="text" value="" id="driverLat" />
-<input type="text" value="" id="driverLong" />
-<input type="text" value="" id="riderLat" />
-<input type="text" value="" id="riderLong" />
+<input type="text" value="@ViewData["driverlat"]" id="driverLat" />
+<input type="text" value="@ViewData["driverlong"]" id="driverLong" />
+<input type="text" value="@ViewData["riderorglat"]" id="riderLat" />
+<input type="text" value="@ViewData["riderorglong"]" id="riderLong" />
 <hr />
 
-<div id="map"></div>
 
 
-
+<div id='map' style='width: 400px; height: 300px;'></div>
 <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-      var map, infoWindow;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 13
-        });
-        infoWindow = new google.maps.InfoWindow;
+    var waterville = { lat: 44.5520, lng: -69.6317 };
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+    var riderlat = parseFloat(document.getElementById('riderLat'));
+    var riderlong = parseFloat(document.getElementById('riderLong'));
+    var riderloc = { lat: riderlat, lng: riderlong };
+    var driverlat = parseFloat(document.getElementById('driverLat'));
+    var driverlong = parseFloat(document.getElementById('driverLong'));
+    var driverloc = { lat: driverlat, lng: driverlong };
 
-            document.getElementById('driverLat').value = pos.lat;
-            document.getElementById('driverLong').value = pos.lng;
-
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }
-
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWRhbmN5OTUiLCJhIjoiY2o5ZXc2bmV5MmR6OTMyczRhdGJlNThuYSJ9.ikMDfZ-Z4i-y__AfEiHqow';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v10'
+    });
 </script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB2JmerOze8qldZJlVzpg9huA_3Rfxb0A&callback=initMap">
-</script>
+
+
+

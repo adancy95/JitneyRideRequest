@@ -24,8 +24,8 @@
 <div class="hiddenform" id="EditRide">
     <form class="form-group" method="post" action="/RideRequest/EditRequest?rideID=@ViewBag.rideID">
         <div class="form-group">
-            <label asp-for="EditRequestViewModel.RiderOrgLoc" class="control-label"></label>
-            <input class="form-control" type="text" asp-for="EditRequestViewModel.RiderOrgLoc" id="RiderOrgLoc" />
+            <label asp-for="EditRequestViewModel.RiderOrgLoc" class="control-label" ></label>
+            <input class="form-control" type="text" asp-for="EditRequestViewModel.RiderOrgLoc" id="RiderOrgLoc"  />
             <span asp-validation-for="EditRequestViewModel.RiderOrgLoc"></span>
         </div>
 
