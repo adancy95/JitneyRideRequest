@@ -21,7 +21,7 @@
     }
 
     form#homebutton {
-        margin: 10% auto 0;
+        margin: 0 auto 0;
         text-align: center;
         
     
@@ -34,8 +34,7 @@
     }
 
     h1 {
-        /*text-shadow: 1px 2px #00359F;*/
-        color: #00359F;
+        color: white;
         font-family: 'Archivo Black', sans-serif;
         margin-right: 15%;
         margin-left: 25%;
@@ -43,11 +42,16 @@
         font-size: 290%;
     }
     #driverlogin{
-        color: black;
+        color: white;
     }
 
-  
 
+    .removepadding {
+        background-color: rgba(0,0,0,0.3);
+        padding: 5%;
+        
+        
+    }
   
 
 </style>
@@ -57,17 +61,20 @@
 
 
 
-        <form asp-controller="RideRequest" asp-action="AddRequest" id="homebutton" style="opacity:1;">
+        <form asp-controller="RideRequest" asp-action="AddRequest" id="homebutton" style="opacity:1;  padding: 10%;">
             <h1> Explore Waterville with the <br /> COLBY JITNEY</h1>
             <br />
             <br />
             <button class="btn btn-primary btn-lg"> Request A Ride </button>
             <br />
-            <a id="driverlogin" asp-area="" asp-controller="RideRequest" asp-action="Index">Driver Login</a>
+            <a id="driverlogin" asp-area="" asp-controller="RideRequest" asp-action="Index" >Driver Login</a>
         </form>
     
 
       
+<script>
+    $('.container-fluid').addClass('removepadding');
+</script>
     
 
 
